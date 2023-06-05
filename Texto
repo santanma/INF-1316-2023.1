@@ -1,0 +1,11 @@
+https://www-di.inf.puc-rio.br/~endler/courses/inf1019/transp/aulas-praticas/Lab%207-Semaforos.pdf
+http://www.br-c.org/doku.php?id=threads_posix
+
+Semáforos 
+Sincronização de Processos
+Exclusão Mútua, Condição de Corrida
+Operações Possíveis Wait(P) -> Decrementa
+					Signal(V) -> Incrementa
+Supondo que Temos um Mutex (0 ou 1) -> Representa 1 Recurso
+Então um processo que precise utilizar o Recurso precisará chamar Wait
+Dependendo do Valor do Semáforo, poderá executar. Do contrário terá que entrar na Fila
