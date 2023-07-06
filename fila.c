@@ -47,7 +47,12 @@ void inserirFila (Fila *f,
 	
 	while(ptr!=NULL)
 	{
-		if(ptr->idProcesso == idProcesso) {} //Update
+		if(ptr->idProcesso == idProcesso) 
+		{
+			encontrado = true;
+			ptr->quantidadeExecIo = quantidadeExecIo;
+			
+		} //Update
 		ptr = ptr->proximo;		 	
 	}
 	
@@ -60,8 +65,7 @@ void inserirFila (Fila *f,
 				
 		if(!strcmp(tipoExecIo,""))
 		{
-			printf("esta vazio\n");
-		
+			
 		}
 		
 		processo->proximo = NULL;
@@ -72,6 +76,21 @@ void inserirFila (Fila *f,
 			f->inicio = processo;
 			
 		f->fim = processo;
+	}
+
+}
+
+
+void imprimirFila(Fila *f)
+{
+	NoProcesso *ptr = f->inicio;
+	
+	for(;ptr!=NULL;ptr = ptr->proximo)
+	{
+		printf("Id Processo %d - ",ptr->idProcesso);
+		printf("Tamanho Processo %d Kb - ",ptr->tamanhoProcesso);
+		printf("Quantidade Exec/Io %d\n",ptr->quantidadeExecIo);
+	
 	}
 
 }

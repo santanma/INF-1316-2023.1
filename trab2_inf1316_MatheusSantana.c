@@ -52,7 +52,6 @@ void inicializarFilas (char *nomeArquivoProcesso)
 	fprintf(arquivoLog,mensagem);
 	
 	idLinha = 1;
-	idProcesso = 0;
 	
 	while(fgets(linha,MAX_LINHA_ARQUIVO,arquivoProcessos) != NULL)
 	{
@@ -70,7 +69,20 @@ void inicializarFilas (char *nomeArquivoProcesso)
 		}
 		else if(strstr(linha,"Processo"))
 		{
-			idProcesso++;
+			char *token = strtok(linha," ");
+			
+			while(token != NULL)
+			{
+							
+				//Pegar o Id Do Processo de Forma Dinâmica
+				if(token[0] == '#') 
+				{
+					idProcesso = atoi(strtok(token,"#"));
+					printf("%d\n",idProcesso);	
+				}			
+				
+				token = strtok(NULL," ");
+			}
 			
 			tamanhoProcesso = (int)(linha[strlen(linha)-4]) - '0';
 		
@@ -81,17 +93,15 @@ void inicializarFilas (char *nomeArquivoProcesso)
 		}
 		else if(strstr(linha,"exec") || strstr(linha,"io"))
 		{
-			
+			//inserirFila(filaProntos,idProcesso,tamanhoProcesso,quantidadeExecIo,linha,0);					
 		}
 		else
 		{
 			quantidadeExecIo = atoi(linha);
-			
-		
+			inserirFila(filaProntos,idProcesso,tamanhoProcesso,quantidadeExecIo,"",0);		
+			//printf("*****Nova Execução*****\n");
+			//imprimirFila(filaProntos);
 		}
-		
-		
-		
 	}
 }
 
