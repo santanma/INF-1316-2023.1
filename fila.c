@@ -14,6 +14,8 @@ struct noProcesso {
 	int idProcesso;
 	int tamanhoProcesso; /*Pela Especificação pode ser de 2Kb,3Kb,4Kb ... ou 8Kb*/
 	int quantidadeExecIo;
+	int quantidadeExecIoLidas; /*Auxiliar para Contarmos quantas Ops de Exec/Io 
+								já foram inseridas a partir do arquivo de Processos*/
 	TipoInformacao *tipoInformacao;
 	NoProcesso *proximo;
 };
@@ -47,12 +49,30 @@ void inserirFila (Fila *f,
 	
 	while(ptr!=NULL)
 	{
-		if(ptr->idProcesso == idProcesso) 
-		{
+		if(ptr->idProcesso == idProcesso) // Update
+		{ 
 			encontrado = true;
-			ptr->quantidadeExecIo = quantidadeExecIo;
 			
-		} //Update
+			ptr->quantidadeExecIo = quantidadeExecIo;
+		
+			if(ptr->tipoInformacao == NULL) 
+			{
+				ptr->tipoInformacao = (TipoInformacao*) malloc 	(sizeof(TipoInformacao)*quantidadeExecIo);	
+			}	
+				
+			if(tipoExecIo[0] != '\0')
+			{
+				TipoInformacao informacaoExecIo;
+			 	strcpy(informacaoExecIo.tipoExecIo,tipoExecIo);
+			 	informacaoExecIo.tempoExecIo = tempoExecIo;
+			 	
+			 	ptr->tipoInformacao[ptr->quantidadeExecIoLidas] = informacaoExecIo;
+			 	
+			 	ptr->quantidadeExecIoLidas++;
+			}
+			break;
+		} 
+		
 		ptr = ptr->proximo;		 	
 	}
 	
@@ -61,12 +81,7 @@ void inserirFila (Fila *f,
 		NoProcesso *processo = (NoProcesso*) malloc (sizeof(NoProcesso));
 		processo->idProcesso = idProcesso;
 		processo->tamanhoProcesso = tamanhoProcesso;
-		processo->quantidadeExecIo = quantidadeExecIo;
-				
-		if(!strcmp(tipoExecIo,""))
-		{
-			
-		}
+		processo->quantidadeExecIoLidas = 0;
 		
 		processo->proximo = NULL;
 		
@@ -89,8 +104,14 @@ void imprimirFila(Fila *f)
 	{
 		printf("Id Processo %d - ",ptr->idProcesso);
 		printf("Tamanho Processo %d Kb - ",ptr->tamanhoProcesso);
-		printf("Quantidade Exec/Io %d\n",ptr->quantidadeExecIo);
-	
+		printf("Quantidade Exec/Io %d",ptr->quantidadeExecIo);
+		
+		printf("\n{");
+		for(int i = 0;i < ptr->quantidadeExecIoLidas; i++)
+		{
+			printf("[%s:%d] ",ptr->tipoInformacao->tipoExecIo,ptr->tipoInformacao[i].tempoExecIo);	
+		}
+		printf("}\n");
 	}
 
 }

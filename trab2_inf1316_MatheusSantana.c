@@ -1,4 +1,5 @@
-/*Leitura de Arquivos - https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm */
+/*Leitura de Arquivos - https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm 
+https://www.geeksforgeeks.org/how-to-split-a-string-in-cc-python-and-java/*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,6 +40,8 @@ void inicializarFilas (char *nomeArquivoProcesso)
 	int idProcesso;
 	int tamanhoProcesso;
 	int quantidadeExecIo;
+	char tipoExecIo[5];
+	int tempoExecIo;
 		
 	arquivoProcessos = fopen(nomeArquivoProcesso,"r");
 	
@@ -69,22 +72,20 @@ void inicializarFilas (char *nomeArquivoProcesso)
 		}
 		else if(strstr(linha,"Processo"))
 		{
+			tamanhoProcesso = (int)(linha[strlen(linha)-4]) - '0';
+		
 			char *token = strtok(linha," ");
 			
 			while(token != NULL)
 			{
-							
 				//Pegar o Id Do Processo de Forma Dinâmica
 				if(token[0] == '#') 
 				{
 					idProcesso = atoi(strtok(token,"#"));
-					printf("%d\n",idProcesso);	
 				}			
 				
 				token = strtok(NULL," ");
 			}
-			
-			tamanhoProcesso = (int)(linha[strlen(linha)-4]) - '0';
 		
 			fprintf(arquivoLog,"Lendo Processo Nº %d - Tamanho %d\n",idProcesso,tamanhoProcesso);
 			
@@ -93,14 +94,32 @@ void inicializarFilas (char *nomeArquivoProcesso)
 		}
 		else if(strstr(linha,"exec") || strstr(linha,"io"))
 		{
-			//inserirFila(filaProntos,idProcesso,tamanhoProcesso,quantidadeExecIo,linha,0);					
+			char *token = strtok(linha," ");
+			int index = 1;
+			
+			//Pegar Exec/Io e seu tempo
+			while (token != NULL)
+    		{
+    			if(index == 1)
+    			{
+    				strcpy(tipoExecIo,token);
+    				index++;
+    			}
+    			else
+    			{
+    				tempoExecIo = atoi(token);    			
+    			}
+       		 	token = strtok(NULL, " ");
+    		}
+					inserirFila(filaProntos,idProcesso,tamanhoProcesso,quantidadeExecIo,tipoExecIo,tempoExecIo);	
+					
+			//printf("*****Nova Execução*****\n");
+			//imprimirFila(filaProntos);				
 		}
 		else
 		{
 			quantidadeExecIo = atoi(linha);
 			inserirFila(filaProntos,idProcesso,tamanhoProcesso,quantidadeExecIo,"",0);		
-			//printf("*****Nova Execução*****\n");
-			//imprimirFila(filaProntos);
 		}
 	}
 }
