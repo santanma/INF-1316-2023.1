@@ -38,6 +38,7 @@ void inicializarFilas (char *nomeArquivoProcesso)
 	int quantidadeProcessos;
 	int idProcesso;
 	int tamanhoProcesso;
+	int quantidadeExecIo;
 		
 	arquivoProcessos = fopen(nomeArquivoProcesso,"r");
 	
@@ -74,8 +75,23 @@ void inicializarFilas (char *nomeArquivoProcesso)
 			tamanhoProcesso = (int)(linha[strlen(linha)-4]) - '0';
 		
 			fprintf(arquivoLog,"Lendo Processo Nº %d - Tamanho %d\n",idProcesso,tamanhoProcesso);
-			//inserirFila(filaProntos,idProcesso,);
+			
+			inserirFila(filaProntos,idProcesso,tamanhoProcesso,0,"",0);
+			continue;
 		}
+		else if(strstr(linha,"exec") || strstr(linha,"io"))
+		{
+			
+		}
+		else
+		{
+			quantidadeExecIo = atoi(linha);
+			
+		
+		}
+		
+		
+		
 	}
 }
 

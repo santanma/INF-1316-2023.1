@@ -9,3 +9,4 @@ void inserirFila (Fila *f,
 				  int quantidadeExecIo,
 				  char *tipoExecIo,
 				  int tempoExecIo);
+void imprimirFila(Fila *f);
