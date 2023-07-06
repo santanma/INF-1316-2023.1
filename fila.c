@@ -15,7 +15,8 @@ struct noProcesso {
 	int tamanhoProcesso; /*Pela Especificação pode ser de 2Kb,3Kb,4Kb ... ou 8Kb*/
 	int quantidadeExecIo;
 	int quantidadeExecIoLidas; /*Auxiliar para Contarmos quantas Ops de Exec/Io 
-								já foram inseridas a partir do arquivo de Processos*/
+								já foram inseridas a partir do arquivo de Processos
+								Importante apenas na Inicialização*/
 	TipoInformacao *tipoInformacao;
 	NoProcesso *proximo;
 };
