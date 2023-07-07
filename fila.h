@@ -18,4 +18,5 @@ void imprimirFila(Fila *f);
 bool filaVazia(Fila *f);
 
 NoProcesso* retirarProcessoDaFila(Fila *f);
- 
+
+int pegarTamanhoProcesso (NoProcesso *processo);
