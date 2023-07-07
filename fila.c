@@ -128,13 +128,23 @@ bool filaVazia(Fila *f)
 
 NoProcesso* retirarProcessoDaFila(Fila *f)
 {
-	NoProcesso *retorno = f->inicio;
-	f->inicio = retorno->proximo;
-	
-	if(f->inicio == NULL)
-		f->fim = NULL;
-		
-	retorno->proximo = NULL; //Solta da Fila
-	
-	return retorno;
+	if(!filaVazia(f)) //Valida se de Fato tem o que tirar para não usar ponteiros inadequadamente
+	{ 
+		NoProcesso *retorno = f->inicio;
+		f->inicio = retorno->proximo;
+
+		if(f->inicio == NULL)
+			f->fim = NULL;
+
+		retorno->proximo = NULL; //Solta da Fila
+			
+		return retorno;
+	}	
+
+	return NULL;
+}
+
+int pegarTamanhoProcesso (NoProcesso *processo)
+{
+	return processo->tamanhoProcesso;
 }
