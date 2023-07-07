@@ -20,3 +20,5 @@ bool filaVazia(Fila *f);
 NoProcesso* retirarProcessoDaFila(Fila *f);
 
 int pegarTamanhoProcesso (NoProcesso *processo);
+
+int pegarIdProcesso (NoProcesso *processo);
