@@ -2,9 +2,9 @@
 #include "fila.h"
 
 #include <stdio.h>
-#include <sys/time.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 struct lista
 {
@@ -17,9 +17,19 @@ struct noMemoria
 	int tamanhoParticao;
 	bool preenchido;
 	
-	NoProcesso *processo; /*Informações do Processo em Execução*/	
-	struct timeval tempoInicial;
-	struct timeval tempoFinal;
-	
+	NoProcesso *processo; /*Informações do Processo em Execução*/		
 	NoMemoria *proximo;
 };
+
+Lista* criarLista()
+{
+	Lista *l = (Lista *) malloc(sizeof(Lista));
+	l->inicio = NULL;
+
+	return l;
+}
+
+bool listaVazia(Lista *l)
+{
+	return (l->inicio == NULL);
+}
