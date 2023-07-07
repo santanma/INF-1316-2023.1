@@ -68,6 +68,7 @@ void insereListaCPUOrdenada(Lista *listaCPU,NoMemoria *particaoNova,NoMemoria *p
 {
 	if(particaoCorrente == NULL)
 	{
+		printf("chegou aqui 2\n");
 		listaCPU->inicio = particaoNova;
 
 		NoMemoria *particaoVazia = (NoMemoria *) malloc (sizeof(NoMemoria));
@@ -80,7 +81,7 @@ void insereListaCPUOrdenada(Lista *listaCPU,NoMemoria *particaoNova,NoMemoria *p
 	}
 	else
 	{
-		
+		return;
 	}
 
 }
@@ -92,23 +93,27 @@ void alocarMemoriaBestFit(Lista *listaCPU,NoProcesso *processo)
 {
 	NoMemoria *ptr = listaCPU->inicio;
 	NoMemoria *menorParticao = NULL;
-
+	
 	int menorEspaco = listaCPU->tamanhoCPU + 1; //Força que Qualquer valor ganhe na comparação
 	
 	bool alocavel = false;
-
+	
 	for(;ptr!=NULL;ptr = ptr->proximo)
 	{
+		printf("chegando aqui varias vezes\n");
+		printf("tamanho do processo %d\n",pegarTamanhoProcesso(processo));
 		if(!(ptr->preenchido)
 			&& ptr->tamanhoParticao < menorEspaco
 			&& ptr->tamanhoParticao >= pegarTamanhoProcesso(processo))
 		{
+			printf("aqui to aqui\n");
 			menorEspaco = ptr->tamanhoParticao;
 			menorParticao = ptr;
 			alocavel = true;
 		}
 	}
-
+	
+	printf("foi aqui\n");
 	if(alocavel)
 	{
 		NoMemoria *particaoCorrente = localizarParticaoExecutandoNaCPU(listaCPU); 
@@ -123,9 +128,11 @@ void alocarMemoriaBestFit(Lista *listaCPU,NoProcesso *processo)
 			menorParticao->tamanhoParticao = pegarTamanhoProcesso(processo);
 			menorParticao->preenchido = true;
 			menorParticao->processo = processo;
-
+			
 			//Inserir na Lista Mantendo a Ordenação
 			insereListaCPUOrdenada(listaCPU,menorParticao,particaoCorrente);
+			printf("chegou aqui 133\n");
 		}
 	}
+	printf("Terminou a Funcao de Memoria\n");
 }
