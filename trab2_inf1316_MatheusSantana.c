@@ -5,6 +5,8 @@ https://www.geeksforgeeks.org/how-to-split-a-string-in-cc-python-and-java/*/
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include <unistd.h>
+#include <ctype.h>
 
 #include "fila.h"
 #include "lista.h"
@@ -13,6 +15,7 @@ FILE *arquivoLog;
 
 #define MAX_MENSAGEM_LOG 4096
 #define MAX_LINHA_ARQUIVO 50
+#define TAMANHO_CPU 16
 
 Fila *filaProntos;
 Fila *filaBloqueados;
@@ -139,7 +142,7 @@ void iniciarProcessamentoCPU()
 	
 	int tempoDecorrido;
 	
-	char tipoAlgoritmo;
+	int tipoAlgoritmo;
 
 	fprintf(arquivoLog,"Iniciando CPU - Relógio será Disparado\n");
 	fprintf(arquivoLog,"Inicializando Lista de Memória da CPU\n");
@@ -151,13 +154,14 @@ void iniciarProcessamentoCPU()
 	printf("B - Best Fit\n");
 	printf("W - Worst Fit\n");
 	
-	scanf("&c ",&tipoAlgoritmo);
+	printf("Escolha.:");
+	tipoAlgoritmo = toupper(getchar());
 	
 	gettimeofday(&tempoInicialRelogio,NULL);
 	
-	listaCPU = criarLista();
+	listaCPU = criarListaCPU(TAMANHO_CPU);
 
-	while(!filaVazia(filaProntos) && !filaVazia(filaBloqueados) && !listaVazia(listaCPU))
+	while(!filaVazia(filaProntos) || !filaVazia(filaBloqueados) || !listaCPUVazia(listaCPU))
 	{
 		gettimeofday(&tempoFinalRelogio,NULL);
 	
@@ -171,9 +175,10 @@ void iniciarProcessamentoCPU()
 			switch(tipoAlgoritmo)
 			{ 
 				case 'F':
-					printf("Escolheu First Fit\n");
+					break;
 				case 'B':
-					printf("Escolheu Best Fit\n");
+					alocarMemoriaBestFit(listaCPU,processo);
+					break;
 				case 'W':
 					printf("Escolheu Worst Fit\n");			
 			}	 
@@ -187,10 +192,6 @@ void iniciarProcessamentoCPU()
 			sleep(1);
 		}		
 	}
-	
-	printf("Fila Prontos Vazia \n");
-	printf("Fila Bloqueados Vazia \n");
-	printf("Lista CPU Vazia \n");
 }
 
 int main ()
