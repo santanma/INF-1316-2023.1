@@ -148,3 +148,8 @@ int pegarTamanhoProcesso (NoProcesso *processo)
 {
 	return processo->tamanhoProcesso;
 }
+
+int pegarIdProcesso (NoProcesso *processo)
+{
+	return processo->idProcesso;
+}
