@@ -4,7 +4,10 @@ https://www.geeksforgeeks.org/how-to-split-a-string-in-cc-python-and-java/*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/time.h>
+
 #include "fila.h"
+#include "lista.h"
 
 FILE *arquivoLog;
 
@@ -13,6 +16,11 @@ FILE *arquivoLog;
 
 Fila *filaProntos;
 Fila *filaBloqueados;
+Lista *listaCPU;
+
+void inicializarArquivoLog (char *nomeArquivoLog);
+void inicializarFilas (char *nomeArquivoProcesso);
+void iniciarProcessamentoCPU();
 
 void inicializarArquivoLog (char *nomeArquivoLog)
 {
@@ -124,8 +132,70 @@ void inicializarFilas (char *nomeArquivoProcesso)
 	}
 }
 
+void iniciarProcessamentoCPU() 
+{
+	struct timeval tempoInicialRelogio;
+	struct timeval tempoFinalRelogio;
+	
+	int tempoDecorrido;
+	
+	char tipoAlgoritmo;
+
+	fprintf(arquivoLog,"Iniciando CPU - Relógio será Disparado\n");
+	fprintf(arquivoLog,"Inicializando Lista de Memória da CPU\n");
+	
+	fprintf(arquivoLog,"Capturando o Algoritmo de Alocação de Memória\n");
+	
+	printf("Escolha o Algoritmo de Alocação de Memória a ser Adotado:\n");
+	printf("F - First Fit\n");
+	printf("B - Best Fit\n");
+	printf("W - Worst Fit\n");
+	
+	scanf("&c ",&tipoAlgoritmo);
+	
+	gettimeofday(&tempoInicialRelogio,NULL);
+	
+	listaCPU = criarLista();
+
+	while(!filaVazia(filaProntos) && !filaVazia(filaBloqueados) && !listaVazia(listaCPU))
+	{
+		gettimeofday(&tempoFinalRelogio,NULL);
+	
+		tempoDecorrido = (tempoFinalRelogio.tv_sec - tempoInicialRelogio.tv_sec);
+	
+		if(tempoDecorrido%1 == 0 || tempoDecorrido < 1) //Contemplar o Início do Programa
+		{		
+			//Passo 1 - Verificar os Prontos
+			NoProcesso *processo = retirarProcessoDaFila(filaProntos);
+		
+			switch(tipoAlgoritmo)
+			{ 
+				case 'F':
+					printf("Escolheu First Fit\n");
+				case 'B':
+					printf("Escolheu Best Fit\n");
+				case 'W':
+					printf("Escolheu Worst Fit\n");			
+			}	 
+		
+			//Passo 2 - Verificar os Bloqueados
+			retirarProcessoDaFila(filaBloqueados);
+		
+			//Passo 3 - Verificar quem está na CPU
+			
+			
+			sleep(1);
+		}		
+	}
+	
+	printf("Fila Prontos Vazia \n");
+	printf("Fila Bloqueados Vazia \n");
+	printf("Lista CPU Vazia \n");
+}
+
 int main ()
 {
 	inicializarArquivoLog("log_SimuladorMemoria.txt");
 	inicializarFilas("Processo.txt");
+	iniciarProcessamentoCPU();
 }
