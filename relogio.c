@@ -7,15 +7,19 @@
 int main ()
 {
 	struct timeval st, et;
+	int elapsed;
 
 	gettimeofday(&st,NULL);
+  
+	while(elapsed <= 20)
+	{
+		gettimeofday(&et,NULL);
 
-	sleep(4);
-
-	gettimeofday(&et,NULL);
-
-	int elapsed = (et.tv_sec - st.tv_sec);
-
-	printf("Tempo Decorrido: %d\n",elapsed);
-
+		elapsed = (et.tv_sec - st.tv_sec);
+		if(elapsed%1 == 0)
+		{
+			printf("Tempo Decorrido: %d\n",elapsed);
+			sleep(1);
+		}
+	}
 }
