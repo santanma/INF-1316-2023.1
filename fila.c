@@ -7,7 +7,7 @@
 
 struct tipoInformacao {
 	char tipoExecIo[5]; /*exec ou Io*/
-	int tempoExecIo;	
+	int tempoExecIo; 
 };
 
 struct noProcesso {
@@ -18,6 +18,10 @@ struct noProcesso {
 								já foram inseridas a partir do arquivo de Processos
 								Importante apenas na Inicialização*/
 	TipoInformacao *tipoInformacao;
+	
+	struct timeval tempoInicialProcesso;
+	struct timeval tempoFinalProcesso;
+	
 	NoProcesso *proximo;
 };
 
@@ -115,4 +119,22 @@ void imprimirFila(Fila *f)
 		printf("}\n");
 	}
 
+}
+
+bool filaVazia(Fila *f)
+{
+	return (f->inicio == NULL);
+}
+
+NoProcesso* retirarProcessoDaFila(Fila *f)
+{
+	NoProcesso *retorno = f->inicio;
+	f->inicio = retorno->proximo;
+	
+	if(f->inicio == NULL)
+		f->fim = NULL;
+		
+	retorno->proximo = NULL; //Solta da Fila
+	
+	return retorno;
 }
